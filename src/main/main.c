@@ -1,14 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <mpi.h>
 
-#define N 10 // Assuming a 10x10 grid for simplicity
+#define N 20 // rows/columns number
 
 // Function to initialize a portion of the grid with living cells
 void initializeGrid(int* subgrid, int localRows, int localColumns, int rank) {
+    srand(time(NULL));
     for (int i = 0; i < localRows; i++) {
         for (int j = 0; j < localColumns; j++) {
-            subgrid[i * localColumns + j] = (i + j + rank) % 2; // Modify this according to your logic
+            subgrid[i * localColumns + j] = (rand()%1212) % 2; 
         }
     }
 }
@@ -31,7 +33,7 @@ int main(int argc, char** argv) {
     // Allocate memory for the sub-grid
     int* subgrid = (int*)malloc(localRows * localColumns * sizeof(int));
 
-    // Initialize the sub-grid
+    // init the grid
     initializeGrid(subgrid, localRows, localColumns, rank);
 
     // Print the initial sub-grid for each process
